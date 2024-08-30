@@ -58,26 +58,26 @@ def get_fundamentals(ticker_symbol):
 
 
 # Function to suppress stdout and stderr
-@contextlib.contextmanager
-def suppress_stdout_stderr():
-    with open(os.devnull, 'w') as devnull:
-        old_stdout = sys.stdout
-        old_stderr = sys.stderr
-        sys.stdout = devnull
-        sys.stderr = devnull
-        try:
-            yield
-        finally:
-            sys.stdout = old_stdout
-            sys.stderr = old_stderr
+# @contextlib.contextmanager
+# def suppress_stdout_stderr():
+#     with open(os.devnull, 'w') as devnull:
+#         old_stdout = sys.stdout
+#         old_stderr = sys.stderr
+#         sys.stdout = devnull
+#         sys.stderr = devnull
+#         try:
+#             yield
+#         finally:
+#             sys.stdout = old_stdout
+#             sys.stderr = old_stderr
 
-# Suppress TensorFlow progress bars
-@contextlib.contextmanager
-def suppress_tf_logs():
-    original_level = tf.get_logger().level
-    tf.get_logger().setLevel('ERROR')
-    yield
-    tf.get_logger().setLevel(original_level)
+# # Suppress TensorFlow progress bars
+# @contextlib.contextmanager
+# def suppress_tf_logs():
+#     original_level = tf.get_logger().level
+#     tf.get_logger().setLevel('ERROR')
+#     yield
+#     tf.get_logger().setLevel(original_level)
 
 def save_model(model, filename='model.h5'):
     model.save(filename)
