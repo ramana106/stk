@@ -35,8 +35,31 @@ def func(tickers):
 
 if __name__ == "__main__":
 
-    tickers = ['ARE&M.NS', 'ANGELONE.NS', 'CDSL.NS', 'DRREDDY.NS', 'HUDCO.NS', 'ITC.NS',
-    'KESORAMIND.NS', 'KSCL.NS', 'MANAPPURAM.NS', 'NATCOPHARM.NS', 'SBICARD.NS',
-    'SPANDANA.NS', 'TATACHEM.NS', 'TATAELXSI.NS', 'TATAMTRDVR.NS', 'TATASTEEL.NS', 'WABAG.NS']
+    tickers = [
+        # Financial Services
+        "ANGELONE.NS", "HDFCBANK.NS", "IDFC.NS", "KOTAKBANK.NS", "KTKBANK.NS", 
+        "TMB.NS", "UJJIVANSFB.NS", "SBICARD.NS", "ARMANFIN.NS", "AAVAS.NS",
+
+        # Pharmaceuticals & Healthcare
+        "DRREDDY.NS", "NATCOPHARM.NS",
+
+        # Industrial Manufacturing
+        "HUDCO.NS", "KESORAMIND.NS", "TATAMTRDVR.NS", "TATASTEEL.NS", 
+        "WABAG.NS", "MIDHANI.NS", "SOLARINDS.NS", "MAZDOCK.NS", 
+        "COCHINSHIP.NS", "GRSE.NS", "HAL.NS", "ASTRAMICRO.NS",
+        "DATAPATTNS.NS", "BEL.NS", "BDL.NS", "PARAS.NS",
+
+        # Chemicals
+        "TATACHEM.NS",
+
+        # Consumer Goods
+        "ITC.NS", "CDSL.NS", "MANAPPURAM.NS",
+
+        # Technology
+        "TATAELXSI.NS", "ZENTEC.NS",
+
+        # Other
+        "ARE&M.NS", "SPANDANA.NS"
+    ]
 
     func(tickers)
