@@ -122,30 +122,30 @@ def calculate_parabolic_sar(high, low, initial_acceleration=0.02, max_accelerati
     """Calculate Parabolic SAR."""
     sar = np.zeros(len(high))
     trend = 1  # 1 for uptrend, -1 for downtrend
-    ep = high[0]  # Extreme price
+    ep = high.iloc[0]  # Extreme price
     af = initial_acceleration
-    sar[0] = low[0]  # Initialize SAR
+    sar[0] = low.iloc[0]  # Initialize SAR
 
     for i in range(1, len(high)):
         if trend == 1:
             sar[i] = sar[i-1] + af * (ep - sar[i-1])
-            if high[i] > ep:
-                ep = high[i]
+            if high.iloc[i] > ep:
+                ep = high.iloc[i]
                 af = min(max_acceleration, af + initial_acceleration)
-            if low[i] < sar[i]:
+            if low.iloc[i] < sar[i]:
                 trend = -1
                 sar[i] = ep
-                ep = low[i]
+                ep = low.iloc[i]
                 af = initial_acceleration
         else:
             sar[i] = sar[i-1] + af * (ep - sar[i-1])
-            if low[i] < ep:
-                ep = low[i]
+            if low.iloc[i] < ep:
+                ep = low.iloc[i]
                 af = min(max_acceleration, af + initial_acceleration)
-            if high[i] > sar[i]:
+            if high.iloc[i] > sar[i]:
                 trend = 1
                 sar[i] = ep
-                ep = high[i]
+                ep = high.iloc[i]
                 af = initial_acceleration
 
     return pd.Series(sar, index=high.index)
