@@ -24,6 +24,7 @@ def predict_tickers(tickers):
 
     print("All results combined:")
     print(all_results)
+    return all_results
 
 
 if __name__ == "__main__":
