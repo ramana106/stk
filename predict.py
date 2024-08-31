@@ -31,4 +31,4 @@ if __name__ == "__main__":
     tickers = ['ARE&M.NS', 'ANGELONE.NS', 'CDSL.NS', 'DRREDDY.NS', 'HUDCO.NS', 'ITC.NS',
     'KESORAMIND.NS', 'KSCL.NS', 'MANAPPURAM.NS', 'NATCOPHARM.NS', 'SBICARD.NS',
     'SPANDANA.NS', 'TATACHEM.NS', 'TATAELXSI.NS', 'TATAMTRDVR.NS', 'TATASTEEL.NS', 'WABAG.NS']
-    predict(tickers)
+    predict_tickers(tickers)
