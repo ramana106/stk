@@ -5,7 +5,7 @@ import joblib
 import traceback
 from utils import data_get_preprocess, load_model, model_predict
 
-def predict(tickers):
+def predict_tickers(tickers):
 
     # Initialize an empty DataFrame to accumulate results
     all_results = pd.DataFrame()
