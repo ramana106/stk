@@ -285,7 +285,7 @@ def train(X_train, X_test, y_train, y_test):
 
     # Train the model without printing the progress
     # with suppress_tf_logs():
-    model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_test, y_test), verbose=0)
+    model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_test, y_test))
 
     # Save the trained model
     save_model(model)
