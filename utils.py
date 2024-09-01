@@ -240,8 +240,8 @@ def data_get_preprocess(ticker_symbol, st_idx=None, en_idx=None):
     data['Next_Day_Return'] = data['Return'].shift(-1)
     data['Next_Week_Return'] = ((data['Adj Close'].shift(-5) - data['Adj Close']) / data['Adj Close']) * 100
     
-    last_date = data.index.tolist()[-1]
-    print(f"last date : {last_date}")
+    # last_date = data.index.tolist()[-1]
+    # print(f"last date : {last_date}")
 
     st_idx = 0 if st_idx is None else st_idx
     en_idx = len(data) if en_idx is None else en_idx
