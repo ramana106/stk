@@ -5,7 +5,7 @@ import joblib
 import traceback
 from utils import data_get_preprocess, load_model, model_predict
 
-def predict_tickers(tickers, st_idx, en_idx):
+def predict_tickers(tickers, st_idx=None, en_idx=None):
 
     # Initialize an empty DataFrame to accumulate results
     all_results = pd.DataFrame()
@@ -29,9 +29,5 @@ def predict_tickers(tickers, st_idx, en_idx):
 
 if __name__ == "__main__":
 
-    tickers = ['ARE&M.NS', 'ANGELONE.NS', 'CDSL.NS', 'DRREDDY.NS', 'HUDCO.NS', 'ITC.NS',
-    'KESORAMIND.NS', 'KSCL.NS', 'MANAPPURAM.NS', 'NATCOPHARM.NS', 'SBICARD.NS',
-    'SPANDANA.NS', 'TATACHEM.NS', 'TATAELXSI.NS', 'TATAMTRDVR.NS', 'TATASTEEL.NS', 'WABAG.NS']
-    st_idx = -30
-    en_idx = -0
-    predict_tickers(tickers)
+    from tickers import tickers
+    predict_tickers(tickers, st_idx=-30)

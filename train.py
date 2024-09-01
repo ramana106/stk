@@ -2,7 +2,7 @@ import pandas as pd
 import json
 from utils import data_get_preprocess, gen_process_data, train
 
-def func(tickers, st_idx, en_idx):
+def func(tickers, st_idx, en_idx, tuning_pram):
     features = [
                 'Return', 'Volatility', 'SMA_5', 'SMA_10', 'SMA_20', 'Momentum', 'RSI',
                 'BB_upper', 'BB_lower', 'MACD', 'Signal_Line', 'Stochastic_K', 'Stochastic_D',
@@ -30,37 +30,20 @@ def func(tickers, st_idx, en_idx):
             continue
     print(len(df))
     X_train, X_test, y_train, y_test, data = gen_process_data(features, df, pred_col="Next_Week_Return")
-    train(X_train, X_test, y_train, y_test)
+
+    train(X_train, X_test, y_train, tuning_pram)
 
 
 if __name__ == "__main__":
 
-    tickers = [
-        # Financial Services
-        "ANGELONE.NS", "HDFCBANK.NS", "IDFC.NS", "KOTAKBANK.NS", "KTKBANK.NS", 
-        "TMB.NS", "UJJIVANSFB.NS", "SBICARD.NS", "ARMANFIN.NS", "AAVAS.NS",
-
-        # Pharmaceuticals & Healthcare
-        "DRREDDY.NS", "NATCOPHARM.NS",
-
-        # Industrial Manufacturing
-        "HUDCO.NS", "KESORAMIND.NS", "TATAMTRDVR.NS", "TATASTEEL.NS", 
-        "WABAG.NS", "MIDHANI.NS", "SOLARINDS.NS", "MAZDOCK.NS", 
-        "COCHINSHIP.NS", "GRSE.NS", "HAL.NS", "ASTRAMICRO.NS",
-        "DATAPATTNS.NS", "BEL.NS", "BDL.NS", "PARAS.NS",
-
-        # Chemicals
-        "TATACHEM.NS",
-
-        # Consumer Goods
-        "ITC.NS", "CDSL.NS", "MANAPPURAM.NS",
-
-        # Technology
-        "TATAELXSI.NS", "ZENTEC.NS",
-
-        # Other
-        "ARE&M.NS", "SPANDANA.NS"
-    ]
-    st_idx = 0
-    en_idx = -60
-    func(tickers)
+    from tickers import tickers
+    param_grid = {
+        'model__dropout_rate': [0.2, 0.3, 0.4],
+        'model__neurons': [64, 128, 256],
+        'model__init': ['uniform', 'normal'],
+        'model__loss': ['mean_squared_error', 'mean_absolute_error', 'huber_loss'],
+        'batch_size': [16, 32, 64],
+        'epochs': [50, 100],
+        'optimizer': ['adam', 'rmsprop']
+    }
+    func(tickers, 0, -30, param_grid)

@@ -287,7 +287,7 @@ def create_model(input_dim=None, optimizer='adam', init='uniform', dropout_rate=
     return model
 
 
-def train(X_train, X_test, y_train, y_test):
+def train(X_train, X_test, y_train, param_grid):
     # Standardize features
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
@@ -300,15 +300,15 @@ def train(X_train, X_test, y_train, y_test):
     )
 
     # Define the grid of hyperparameters to search
-    param_grid = {
-        'model__dropout_rate': [0.2, 0.3, 0.4],
-        'model__neurons': [64, 128, 256],
-        'model__init': ['uniform', 'normal'],
-        'model__loss': ['mean_squared_error', 'mean_absolute_error', 'huber_loss'],
-        'batch_size': [16, 32, 64],
-        'epochs': [50, 100],
-        'optimizer': ['adam', 'rmsprop']
-    }
+    # param_grid = {
+    #     'model__dropout_rate': [0.2, 0.3, 0.4],
+    #     'model__neurons': [64, 128, 256],
+    #     'model__init': ['uniform', 'normal'],
+    #     'model__loss': ['mean_squared_error', 'mean_absolute_error', 'huber_loss'],
+    #     'batch_size': [16, 32, 64],
+    #     'epochs': [50, 100],
+    #     'optimizer': ['adam', 'rmsprop']
+    # }
 
     # Perform Grid Search
     grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=1, cv=3)
