@@ -306,7 +306,7 @@ def train(X_train, X_test, y_train, y_test):
     }
 
     # Perform Grid Search
-    grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=-1, cv=3)
+    grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=1, cv=3)
     grid_result = grid.fit(X_train, y_train)
 
     # Output the best score and parameters
