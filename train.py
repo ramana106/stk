@@ -2,7 +2,7 @@ import pandas as pd
 import json
 from utils import data_get_preprocess, gen_process_data, train
 
-def func(tickers):
+def func(tickers, st_idx, en_idx):
     features = [
                 'Return', 'Volatility', 'SMA_5', 'SMA_10', 'SMA_20', 'Momentum', 'RSI',
                 'BB_upper', 'BB_lower', 'MACD', 'Signal_Line', 'Stochastic_K', 'Stochastic_D',
@@ -22,7 +22,7 @@ def func(tickers):
     df = pd.DataFrame()
     for ticker in tickers:
         try:
-            data = data_get_preprocess(ticker)
+            data = data_get_preprocess(ticker, st_idx=st_idx, en_idx=en_idx)
             df = pd.concat([df, data])
         except:
             traceback.print_exc()
@@ -61,5 +61,6 @@ if __name__ == "__main__":
         # Other
         "ARE&M.NS", "SPANDANA.NS"
     ]
-
+    st_idx = 0
+    en_idx = -60
     func(tickers)

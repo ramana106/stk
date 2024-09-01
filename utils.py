@@ -156,7 +156,7 @@ def download_stock_data(ticker_symbol):
     return data
 
 
-def data_get_preprocess(ticker_symbol, train=True):
+def data_get_preprocess(ticker_symbol, st_idx, en_idx):
     print(f"\nProcessing {ticker_symbol}...")
 
     # Fetch historical data with suppressed progress bar
@@ -246,6 +246,8 @@ def data_get_preprocess(ticker_symbol, train=True):
     else:
         # return only last 30 days
         data = data[-30:]
+    
+    data = data[st_idx:en_idx]
     
     # fill na with contant value
     constant_value = -9999
