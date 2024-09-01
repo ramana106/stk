@@ -297,7 +297,7 @@ def train(X_train, X_test, y_train, y_test):
     model = create_model(input_dim = X_train.shape[1])
 
     # Train the model without printing the progress
-    model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_test, y_test))
+    model.fit(X_train, y_train, epochs=30, batch_size=32, validation_data=(X_test, y_test))
 
     # Save the trained model
     save_model(model)
