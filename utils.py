@@ -303,10 +303,10 @@ def train(X_train, X_test, y_train, y_test):
         'batch_size': [16, 32, 64],
         'epochs': [50, 100],
         'optimizer': ['adam', 'rmsprop'],
-        'dropout_rate': [0.2, 0.3, 0.4],
-        'neurons': [64, 128, 256],
-        'init': ['uniform', 'normal'],
-        'loss': ['mean_squared_error', 'mean_absolute_error', 'huber_loss']
+        'build_fn__dropout_rate': [0.2, 0.3, 0.4],
+        'build_fn__neurons': [64, 128, 256],
+        'build_fn__init': ['uniform', 'normal'],
+        'build_fn__loss': ['mean_squared_error', 'mean_absolute_error', 'huber_loss']
     }
 
     # Perform Grid Search
@@ -322,7 +322,6 @@ def train(X_train, X_test, y_train, y_test):
 
     # Save the scaler
     joblib.dump(scaler, 'scaler.pkl')
-
 
 
 def model_predict(data, features, ticker):
