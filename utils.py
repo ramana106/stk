@@ -318,7 +318,7 @@ def train(X_train, X_test, y_train, param_grid):
     print(f"Best: {grid_result.best_score_} using {grid_result.best_params_}")
 
     # Save the best model found by GridSearchCV
-    best_model = grid_result.best_estimator_.model
+    best_model = grid_result.best_estimator_.model_
     save_model(best_model)
 
     # Save the scaler
