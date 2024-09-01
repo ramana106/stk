@@ -10,7 +10,7 @@ from sklearn.model_selection import GridSearchCV
 from scikeras.wrappers import KerasRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout
+from keras.layers import Dense, Dropout, Input
 from datetime import timedelta
 import os
 import sys
@@ -270,7 +270,9 @@ def create_model(input_dim=None, optimizer='adam', init='uniform', dropout_rate=
 
     # Build the model
     model = Sequential()
-    model.add(Dense(neurons, input_dim=input_dim, kernel_initializer=init, activation='relu'))
+    # Use Input layer to define the input shape
+    model.add(Input(shape=(input_dim,)))
+    model.add(Dense(neurons, kernel_initializer=init, activation='relu'))
     model.add(Dropout(dropout_rate))
     model.add(Dense(128, activation='relu'))
     model.add(Dropout(dropout_rate))
@@ -294,8 +296,7 @@ def train(X_train, X_test, y_train, y_test):
     # Instantiate the KerasRegressor
     model = KerasRegressor(
         model=create_model,
-        input_dim=X_train.shape[1],
-        verbose=0
+        input_dim=X_train.shape[1]
     )
 
     # Define the grid of hyperparameters to search
