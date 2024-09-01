@@ -1,8 +1,8 @@
 import pandas as pd
 import json
-from utils import data_get_preprocess, gen_process_data, train
+from utils import data_get_preprocess, gen_process_data, train, train_grid
 
-def func(tickers, st_idx, en_idx, tuning_pram):
+def func(tickers, st_idx, en_idx, tuning_pram=None):
     features = [
                 'Return', 'Volatility', 'SMA_5', 'SMA_10', 'SMA_20', 'Momentum', 'RSI',
                 'BB_upper', 'BB_lower', 'MACD', 'Signal_Line', 'Stochastic_K', 'Stochastic_D',
@@ -31,7 +31,10 @@ def func(tickers, st_idx, en_idx, tuning_pram):
     print(len(df))
     X_train, X_test, y_train, y_test, data = gen_process_data(features, df, pred_col="Next_Week_Return")
 
-    train(X_train, X_test, y_train, tuning_pram)
+    if tuning_pram:
+        train_grid(X_train, X_test, y_train, y_test, tuning_pram)
+    else:
+        train(X_train, X_test, y_train, y_test)
 
 
 if __name__ == "__main__":

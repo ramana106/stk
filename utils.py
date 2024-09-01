@@ -286,8 +286,27 @@ def create_model(input_dim=None, optimizer='adam', init='uniform', dropout_rate=
     model.compile(optimizer=optimizer, loss=loss, metrics=['mean_absolute_error'])
     return model
 
+def train(X_train, X_test, y_train, y_test):
 
-def train(X_train, X_test, y_train, param_grid):
+    # Standardize features
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+
+    # define model
+    model = create_model(input_dim = X_train.shape[1])
+
+    # Train the model without printing the progress
+    model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_test, y_test))
+
+    # Save the trained model
+    save_model(model)
+
+    # Save the scaler
+    joblib.dump(scaler, 'scaler.pkl')
+
+
+def train_grid(X_train, X_test, y_train, y_test, param_grid):
     # Standardize features
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
