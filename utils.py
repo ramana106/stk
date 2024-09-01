@@ -239,13 +239,6 @@ def data_get_preprocess(ticker_symbol, st_idx, en_idx):
     # Prepare the target variable (percentage change from previous day)
     data['Next_Day_Return'] = data['Return'].shift(-1)
     data['Next_Week_Return'] = ((data['Adj Close'].shift(-5) - data['Adj Close']) / data['Adj Close']) * 100
-
-    if train:
-        # remove last 30 days
-        data = data[:-30]
-    else:
-        # return only last 30 days
-        data = data[-30:]
     
     data = data[st_idx:en_idx]
     
