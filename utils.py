@@ -6,6 +6,8 @@ import warnings
 import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import GridSearchCV
+from keras.wrappers.scikit_learn import KerasRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
@@ -262,6 +264,26 @@ def gen_process_data(features, data, pred_col="Next_Day_Return"):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
     return X_train, X_test, y_train, y_test, data
 
+def create_model(input_dim=None, optimizer='adam', init='uniform', dropout_rate=0.3, neurons=256, loss='mean_squared_error'):
+    if input_dim is None:
+        raise ValueError("input_dim must be provided")
+
+    # Build the model
+    model = Sequential()
+    model.add(Dense(neurons, input_dim=input_dim, kernel_initializer=init, activation='relu'))
+    model.add(Dropout(dropout_rate))
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(dropout_rate))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(dropout_rate))
+    model.add(Dense(32, activation='relu'))
+    model.add(Dense(16, activation='relu'))
+    model.add(Dense(1, activation='linear'))
+
+    # Compile the model
+    model.compile(optimizer=optimizer, loss=loss, metrics=['mean_absolute_error'])
+    return model
+
 
 def train(X_train, X_test, y_train, y_test):
     # Standardize features
@@ -269,27 +291,30 @@ def train(X_train, X_test, y_train, y_test):
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
 
-    # Build the deeper neural network model
-    model = Sequential()
-    model.add(Dense(256, input_dim=X_train.shape[1], activation='relu'))
-    model.add(Dropout(0.3))
-    model.add(Dense(128, activation='relu'))
-    model.add(Dropout(0.3))
-    model.add(Dense(64, activation='relu'))
-    model.add(Dropout(0.3))
-    model.add(Dense(32, activation='relu'))
-    model.add(Dense(16, activation='relu'))
-    model.add(Dense(1, activation='linear'))
+    # Instantiate the KerasRegressor
+    model = KerasRegressor(build_fn=create_model, input_dim=X_train.shape[1])
 
-    # Compile the model
-    model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mean_absolute_error'])
+    # Define the grid of hyperparameters to search
+    param_grid = {
+        'batch_size': [16, 32, 64],
+        'epochs': [50, 100],
+        'optimizer': ['adam', 'rmsprop'],
+        'dropout_rate': [0.2, 0.3, 0.4],
+        'neurons': [64, 128, 256],
+        'init': ['uniform', 'normal'],
+        'loss': ['mean_squared_error', 'mean_absolute_error', 'huber_loss']
+    }
 
-    # Train the model without printing the progress
-    # with suppress_tf_logs():
-    model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_test, y_test))
+    # Perform Grid Search
+    grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=-1, cv=3)
+    grid_result = grid.fit(X_train, y_train)
 
-    # Save the trained model
-    save_model(model)
+    # Output the best score and parameters
+    print(f"Best: {grid_result.best_score_} using {grid_result.best_params_}")
+
+    # Save the best model found by GridSearchCV
+    best_model = grid_result.best_estimator_.model
+    save_model(best_model)
 
     # Save the scaler
     joblib.dump(scaler, 'scaler.pkl')
