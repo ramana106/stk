@@ -240,6 +240,9 @@ def data_get_preprocess(ticker_symbol, st_idx, en_idx):
     data['Next_Day_Return'] = data['Return'].shift(-1)
     data['Next_Week_Return'] = ((data['Adj Close'].shift(-5) - data['Adj Close']) / data['Adj Close']) * 100
     
+    last_date = data.index.tolist()[-1]
+    print(f"last date : {last_date}")
+    print(f"st_idx: {st_idx}, en_idx: {en_idx}")
     data = data[st_idx:en_idx]
     
     # fill na with contant value
