@@ -156,7 +156,7 @@ def download_stock_data(ticker_symbol):
     return data
 
 
-def data_get_preprocess(ticker_symbol, st_idx, en_idx):
+def data_get_preprocess(ticker_symbol, st_idx=None, en_idx=None):
     print(f"\nProcessing {ticker_symbol}...")
 
     # Fetch historical data with suppressed progress bar
@@ -242,7 +242,10 @@ def data_get_preprocess(ticker_symbol, st_idx, en_idx):
     
     last_date = data.index.tolist()[-1]
     print(f"last date : {last_date}")
-    print(f"st_idx: {st_idx}, en_idx: {en_idx}")
+
+    st_idx = 0 if st_idx is None else st_idx
+    en_idx = len(data) if en_idx is None else en_idx
+
     data = data[st_idx:en_idx]
     
     # fill na with contant value
