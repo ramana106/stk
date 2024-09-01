@@ -293,20 +293,20 @@ def train(X_train, X_test, y_train, y_test):
 
     # Instantiate the KerasRegressor
     model = KerasRegressor(
-        build_fn=create_model, 
-        input_dim=X_train.shape[1], 
+        model=create_model,
+        input_dim=X_train.shape[1],
         verbose=0
     )
 
     # Define the grid of hyperparameters to search
     param_grid = {
+        'model__dropout_rate': [0.2, 0.3, 0.4],
+        'model__neurons': [64, 128, 256],
+        'model__init': ['uniform', 'normal'],
+        'model__loss': ['mean_squared_error', 'mean_absolute_error', 'huber_loss'],
         'batch_size': [16, 32, 64],
         'epochs': [50, 100],
-        'optimizer': ['adam', 'rmsprop'],
-        'build_fn__dropout_rate': [0.2, 0.3, 0.4],
-        'build_fn__neurons': [64, 128, 256],
-        'build_fn__init': ['uniform', 'normal'],
-        'build_fn__loss': ['mean_squared_error', 'mean_absolute_error', 'huber_loss']
+        'optimizer': ['adam', 'rmsprop']
     }
 
     # Perform Grid Search
