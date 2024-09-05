@@ -2,10 +2,7 @@ import pandas as pd
 from utils import data_get_preprocess
 from tickers import tickers
 
-
-if __name__ == "__main__":
-    import traceback
-    
+def save_data():
     df = pd.DataFrame()
     for ticker in tickers:
         try:
