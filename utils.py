@@ -42,7 +42,7 @@ def get_fundamentals(ticker_symbol):
     equity = balance_sheet.get('StockholdersEquity')  # Stockholders' Equity
 
     # Calculate the Debt to Equity ratio
-    debt_to_equity = total_debt / equity if equity else np.nan
+    debt_to_equity = total_debt / equity if (equity and total_debt) else np.nan
 
     net_income = income_statement.get('NetIncome', 0)  # Net Income from the income statement
     equity = balance_sheet.get('StockholdersEquity', 1)  # Stockholders' Equity from the balance sheet
