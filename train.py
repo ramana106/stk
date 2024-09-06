@@ -58,4 +58,4 @@ if __name__ == "__main__":
 
     pth = sys.argv[1]
     df = pd.read_csv(pth)
-    train_from_csv(data)
+    train_from_csv(df)
