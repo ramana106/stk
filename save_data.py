@@ -15,5 +15,5 @@ def save_data():
             print(f"Error processing {ticker}. Skipping...")
             continue
     print(len(df))
-    # df.replace([np.inf, -np.inf], -9999, inplace=True)
+    df.replace([np.inf, -np.inf], -9999, inplace=True)
     df.to_csv("data.csv")
