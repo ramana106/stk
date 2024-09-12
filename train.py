@@ -39,6 +39,8 @@ def func(tickers, st_idx, en_idx, tuning_pram=None):
         train(X_train, X_test, y_train, y_test)
 
 def train_from_csv(data):
+    with open("features.json", 'w') as d:
+        d.write(json.dumps(features))
     X_train, X_test, y_train, y_test, data = gen_process_data(features, data, pred_col="Next_Week_Return")
     train(X_train, X_test, y_train, y_test)
 
